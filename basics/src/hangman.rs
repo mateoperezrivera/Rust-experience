@@ -5,7 +5,8 @@ use std::path::Path;
 
 use rand::{ Rng};
 
-static FILENAME:&str="src/resources/words.txt";
+static FILENAME:&str="src/resources/hangman.txt";
+
 fn main() {
     let word=get_word().unwrap_or_else(|e| {
         eprintln!("Error: {}", e);
@@ -38,7 +39,11 @@ fn main() {
         if first_char.is_alphabetic(){
             if word.contains(first_char) {
                 if !guessed_letters.contains(&first_char){
-                    guessed_letters.push(first_char);
+                    for char in word.chars() {
+                        if char == first_char{
+                            guessed_letters.push(char);
+                        }
+                    }
                 }
             }else if  !wrong_letters.contains(&first_char) {
                     wrong_letters.push(first_char);
@@ -74,3 +79,4 @@ fn get_word() -> io::Result<String>{
         }
     }
 }
+
